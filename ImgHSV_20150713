@@ -1,0 +1,57 @@
+%Mike Shen - 2015
+
+function [data,test] = ImgBreakdownMS(HSV)
+imsize = size(HSV);
+imrows = imsize(1);
+imcols = imsize(2);
+%breaks down image and saves as file for analysis. 
+data = zeros(size(HSV,1),size(HSV,2));
+
+%STEP 3
+%Write HSV Value of colors here, in order as they are placed on the 384PP
+%plate. Position in nx3 matrix, where n = # of colors.
+
+colors =   [0,0,0; %black
+            9,126,192; %blue
+            192,192,192; %dark grey
+            255,255,255]; %white
+        
+colors2 = colors/255;
+colorshsv = rgb2hsv(colors2);
+    
+  % 255,255,255; white
+  % 203,149,191; %red pMS008
+  % 200,200,200; %grey
+  % 72,132,255;  %blue pMS004
+
+test = zeros(imsize);
+nlDisp = zeros(size(colorshsv,1),1);
+for r = 1:1:imrows
+    for c = 1:1:imcols
+        temp = colorshsv;
+        p = zeros(1,3);
+        p(1) = HSV(r,c,1);
+        p(2) = HSV(r,c,2);
+        p(3) = HSV(r,c,3);
+        for i = 1:size(temp,1)
+            temp(i,:) = temp(i,:) - p;
+        end     
+        temp = temp.^2;
+        temp = temp*[0.5;0.5;1];
+        distance = sqrt(temp)';
+        [Y,b] = min(distance);
+        if(nlDisp(b,1) > 35000)
+            bb = b+size(colors,1);
+            data(r,c) = bb;
+        else
+            data(r,c) = b;
+        end
+        nlDisp(b,1) = nlDisp(b,1)+2.5;
+        test(r,c,1) = colorshsv(b,1);
+        test(r,c,2) = colorshsv(b,2);
+        test(r,c,3) = colorshsv(b,3);
+    end
+end
+test2 = hsv2rgb(test);
+imshow(test2);
+nlDisp
