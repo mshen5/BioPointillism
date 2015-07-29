@@ -11,7 +11,9 @@ The starting well should be the row/column (ie A1) location of your first color
 
 We recommend 2.5 nL as an initial transfer volume, using yeast between an OD of 1.0 and 1.2
 
-The number of colors used and their order need to be defined in ImgHSV.m using their RGB values
+The number of colors used and their order need to be defined in ImgHSV.m using their RGB values. This can be changed under the Step 1 header.
+
+This code is also written to add a second well of a color if you need more than 35 uL of that color. For instance, if you have j colors, and need >35 uL of your nth color, the code will instruct the Echo to switch to well (j+n) after the first 35 uL are shot 
 
 EchoH takes your input image, converts it to HSV colorspace, and calls ImgHSV, which uses a weighted least-squares comparison algorithm to compare your input image to your yeast colors to find the closest color approximation
 
