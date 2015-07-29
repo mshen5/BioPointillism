@@ -7,8 +7,8 @@ imcols = imsize(2);
 %breaks down image and saves as file for analysis. 
 data = zeros(size(HSV,1),size(HSV,2));
 
-%STEP 3
-%Write HSV Value of colors here, in order as they are placed on the 384PP
+%STEP 1
+%Write RGB Value of colors here, in order as they are placed on the 384PP
 %plate. Position in nx3 matrix, where n = # of colors.
 
 colors =   [0,0,0; %black
